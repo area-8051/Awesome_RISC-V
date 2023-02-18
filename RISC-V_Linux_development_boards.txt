@@ -1,0 +1,33 @@
+WIP...
+
+BL808 https://pine64.com/product/128mb-ox64-sbc-available-on-december-2-2022/
+Documentation: https://wiki.pine64.org/wiki/Ox64
+& https://github.com/bouffalolab/bl_docs
+& https://github.com/bouffalolab/bl_mcu_sdk
+Linux sources: https://github.com/bouffalolab/bl808_linux
+Buildroot scripts: https://github.com/openbouffalo/buildroot_bouffalo
+
+Tina Linux: https://d1.docs.aw-ol.com/en/study/study_1tina/
+
+D1 https://www.aliexpress.com/item/1005004157984532.html
+=> Mango PI MQ-Pro
+Documentation: https://mangopi.org/mangopi_mqpro
+GitHub: https://github.com/mangopi-sbc
+PhoenixCard equivalent for Linux: https://github.com/YuzukiTsuru/OpenixCard
+
+D1 https://www.aliexpress.com/item/1005003741287162.html (bundle: with WiFi 1G)
+=> LicheeRV + dock
+Documentation: https://wiki.sipeed.com/hardware/en/lichee/RV/Dock.html
+& https://linux-sunxi.org/Sipeed_Lichee_RV
+
+D1 https://www.aliexpress.com/item/1005004250215625.html
+=> Dongshan Nezha STU
+Documentation: https://riscv64.dongshanpi.com/
+& https://github.com/DongshanPI/Dongshanpi-Docs/tree/master/docs/DongshanNezhaSTU
+& https://github.com/DongshanPI/Awesome_RISCV-AllwinnerD1/
+GitHub: https://github.com/DongshanPI
+
+JH7110 https://www.aliexpress.com/item/1005005093740724.html
+Documentation: https://rvspace.org/en/project/Document_Publish_Status
+Forum: https://forum.rvspace.org/c/visionfive-2/19
+GitHub: https://github.com/starfive-tech
