@@ -215,6 +215,8 @@ downloadFile() {
             wget -q -O "${localFile}" $(wget -q -O - ${pageUrl} | \
                 tidy --quiet yes --show-errors 0 --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
                 xml sel --text -t -m "//a[contains(@class,'btn-wch-download')]" -v "@href")
+            # Fixes a bug in date conversion between different time zones
+            touch "${localFile}"
         fi
         ;;
     
@@ -257,6 +259,10 @@ blacklist="${blacklist}|WCHBleLib_MultiOS.zip||CH372DRV.zip||WCHIOT.zip|"
 blacklist="${blacklist}|BLE_OTA_iOS.zip||CH372DRV.zip||CH37X_MAC.zip|"
 # 5. Android-only stuff
 blacklist="${blacklist}|BLE_OTA_Android.zip||WCH_Mesh_Android.zip||CH37X_ANDROID.zip|"
+# 6. Alias of CH32V307DS0.pdf
+blacklist="${blacklist}|CH32V20x_30xDS0.pdf|"
+# For some reason, the CH32F20x are associated to CH32Vxxx...
+riscvBlacklist="${blacklist}|CH32F20xDS0.pdf|"
 
 # === TODO customise to your liking ====================================
 # First argument is the search string on WCH's websites.
@@ -270,9 +276,9 @@ blacklist="${blacklist}|BLE_OTA_Android.zip||WCH_Mesh_Android.zip||CH37X_ANDROID
 # a bug (perform a search on the web site to check). Unfortunately,
 # there's nothing to be done against such errors.
 
-updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${blacklist}"
-updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${blacklist}"
-updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${blacklist}"
-updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${blacklist}"
+updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
+updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${riscvBlacklist}"
+updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${riscvBlacklist}"
+updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${riscvBlacklist}"
 
 updateDocuments 'CH32F' "arm/wch" 'blacklist' "${blacklist}"
