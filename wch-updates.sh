@@ -160,6 +160,7 @@ downloadFile() {
     local newFileDate="$(echo "${newFileRecord}" | cut -d , -f 1)"
     local language="$(echo "${newFileRecord}" | cut -d , -f 2)"
     local pageUrl="$(echo "${newFileRecord}" | cut -d , -f 3)"
+    local fileUrl
     
     local baseName="$(echo "${pageUrl}" | sed 's/.*\/\([^/]*\)_.*\.html/\1/')"
     local suffix="$(echo "${pageUrl}" | sed 's/.*\/[^/]*_\(.*\)\.html/\1/' | tr '[:upper:]' '[:lower:]')"
@@ -212,11 +213,17 @@ downloadFile() {
     update)
         if [ "${download}" = 'y' ]; then
             echo "Updating ${destDir}/${destFile}" 1>&2
-            wget -q -O "${localFile}" $(wget -q -O - ${pageUrl} | \
+            fileUrl="$(wget -q -O - ${pageUrl} | \
                 tidy --quiet yes --show-errors 0 --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
-                xml sel --text -t -m "//a[contains(@class,'btn-wch-download')]" -v "@href")
-            # Fixes a bug in date conversion between different time zones
-            touch "${localFile}"
+                xml sel --text -t -m "//a[contains(@class,'btn-wch-download')]" -v "@href")"
+            
+            if [ -n "${fileUrl}" ]; then
+                wget -q -O "${localFile}" "${fileUrl}"
+                # Fixes a bug in date conversion between different time zones
+                touch "${localFile}"
+            else
+                echo "Not available for download, contact WCH sales."
+            fi
         fi
         ;;
     
