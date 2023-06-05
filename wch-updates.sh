@@ -33,12 +33,6 @@
 
 # Execute without argument for help.
 
-# === TODO customise to your liking ====================================
-# This is the directory under which all documents must be downloaded.
-# You may specify subdirectories when invoking updateDocuments
-# => SEE BOTTOM OF SCRIPT.
-mcuDocRoot='/home/vincent/doc+tools/mcu'
-
 checkPackage() {
     local p="$1"
     local r='1'
@@ -222,7 +216,7 @@ downloadFile() {
                 # Fixes a bug in date conversion between different time zones
                 touch "${localFile}"
             else
-                echo "Not available for download, contact WCH sales."
+                echo "Not available for download, contact WCH sales." 1>&2
             fi
         fi
         ;;
@@ -247,12 +241,16 @@ updateDocuments() {
     local record
     local language
     
+    echo "Checking ${keyword}..." 1>&2
+    
     for language in en cn; do
         listFiles "${language}" "${keyword}" | while IFS="\n" read record; do
             downloadFile "${record}" "${docDir}" "${listType}" "${fileList}"
         done
     done
 }
+
+# === TODO customise to your liking ====================================
 
 # Define black-listed files:
 
@@ -271,7 +269,10 @@ blacklist="${blacklist}|CH32V20x_30xDS0.pdf|"
 # For some reason, the CH32F20x are associated to CH32Vxxx...
 riscvBlacklist="${blacklist}|CH32F20xDS0.pdf|"
 
-# === TODO customise to your liking ====================================
+# This is the directory under which all documents must be downloaded.
+# You may specify subdirectories when invoking updateDocuments
+mcuDocRoot='/home/vincent/doc+tools/mcu'
+
 # First argument is the search string on WCH's websites.
 # Second argument is where to store documents found (under ${mcuDocRoot}).
 # Third argument is 'blacklist' or 'whitelist'.
