@@ -90,6 +90,9 @@ list)
 update)
     runMode='update'
     ;;
+riscv)
+    runMode='RISC-V'
+    ;;
 esac
 
 if [ "${runMode}" = 'help' ]; then
@@ -105,6 +108,9 @@ in 'update' mode.
 
 - update: updates all local files for which a most recent version is
 available online, both from http://wch-ic.com and http.//www.wch.cn.
+
+- riscv: lists all documents about RISC-V MCU. Useful to spot new MCU
+as they become available.
 
 - help: displays this message.
 EOF
@@ -250,6 +256,26 @@ updateDocuments() {
     done
 }
 
+printFile() {
+    local newFileRecord="$1"
+    
+    local newFileDate="$(echo "${newFileRecord}" | cut -d , -f 1)"
+    local pageUrl="$(echo "${newFileRecord}" | cut -d , -f 3)"
+    
+    local baseName="$(echo "${pageUrl}" | sed 's/.*\/\([^/]*\)_.*\.html/\1/')"
+    local suffix="$(echo "${pageUrl}" | sed 's/.*\/[^/]*_\(.*\)\.html/\1/' | tr '[:upper:]' '[:lower:]')"
+    
+    if [ "${suffix}" = 'pdf' ]; then
+        case "${baseName}" in
+        PACKAGE | PRODUCT_GUIDE | CH32V20x_30xDS0 | *_Manual | *RM)
+            ;;
+        *)
+            echo "${newFileDate},${baseName}"
+            ;;
+        esac
+    fi
+}
+
 # === TODO customise to your liking ====================================
 
 # Define black-listed files:
@@ -269,27 +295,35 @@ blacklist="${blacklist}|CH32V20x_30xDS0.pdf|"
 # For some reason, the CH32F20x are associated to CH32Vxxx...
 riscvBlacklist="${blacklist}|CH32F20xDS0.pdf|"
 
-# This is the directory under which all documents must be downloaded.
-# You may specify subdirectories when invoking updateDocuments
-mcuDocRoot='/home/vincent/doc+tools/mcu'
-
-# First argument is the search string on WCH's websites.
-# Second argument is where to store documents found (under ${mcuDocRoot}).
-# Third argument is 'blacklist' or 'whitelist'.
-# Fourth argument is the black- or white-list itself.
-
-# Note: Some files may be incorrectly categorised on WCH's website.
-# For instance, if you search for CH32V and see a CH32F... file among
-# the results, it may be caused by improper categorisation rather than
-# a bug (perform a search on the web site to check). Unfortunately,
-# there's nothing to be done against such errors.
-
-updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
-updateDocuments 'CH32X' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
-updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${riscvBlacklist}"
-updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${riscvBlacklist}"
-updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${riscvBlacklist}|CH592DS1.pdf|"
-updateDocuments 'CH592' "risc-v/wch/CH59x" 'blacklist' "${riscvBlacklist}"
-updateDocuments 'CH643' "risc-v/wch/CH64x" 'blacklist' "${riscvBlacklist}"
-
-#updateDocuments 'CH32F' "arm/wch" 'blacklist' "${blacklist}"
+case "${runMode}" in
+'RISC-V')
+    listFiles 'cn' "${runMode}" | while IFS="\n" read record; do
+        printFile "${record}"
+    done | sort -r
+    ;;
+*)
+    # This is the directory under which all documents must be downloaded.
+    # You may specify subdirectories when invoking updateDocuments
+    mcuDocRoot='/home/vincent/doc+tools/mcu'
+    
+    # First argument is the search string on WCH's websites.
+    # Second argument is where to store documents found (under ${mcuDocRoot}).
+    # Third argument is 'blacklist' or 'whitelist'.
+    # Fourth argument is the black- or white-list itself.
+    
+    # Note: Some files may be incorrectly categorised on WCH's website.
+    # For instance, if you search for CH32V and see a CH32F... file among
+    # the results, it may be caused by improper categorisation rather than
+    # a bug (perform a search on the web site to check). Unfortunately,
+    # there's nothing to be done against such errors.
+    
+    updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH32X' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${riscvBlacklist}|CH592DS1.pdf|"
+    updateDocuments 'CH592' "risc-v/wch/CH59x" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH643' "risc-v/wch/CH64x" 'blacklist' "${riscvBlacklist}"
+    
+    #updateDocuments 'CH32F' "arm/wch" 'blacklist' "${blacklist}"
+esac
