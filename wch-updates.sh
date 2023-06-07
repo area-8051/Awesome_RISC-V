@@ -285,9 +285,11 @@ mcuDocRoot='/home/vincent/doc+tools/mcu'
 # there's nothing to be done against such errors.
 
 updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
+updateDocuments 'CH32X' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
 updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${riscvBlacklist}"
 updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${riscvBlacklist}"
 updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${riscvBlacklist}|CH592DS1.pdf|"
 updateDocuments 'CH592' "risc-v/wch/CH59x" 'blacklist' "${riscvBlacklist}"
+updateDocuments 'CH643' "risc-v/wch/CH64x" 'blacklist' "${riscvBlacklist}"
 
-updateDocuments 'CH32F' "arm/wch" 'blacklist' "${blacklist}"
+#updateDocuments 'CH32F' "arm/wch" 'blacklist' "${blacklist}"
