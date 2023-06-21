@@ -120,18 +120,18 @@ fi
 listFiles() {
     local language="$1"
     local keyword="$2"
-    local searchUrl='http://wch'
+    local searchUrl
     
     if [ "${language}" = 'en' ]; then
-        searchUrl="${searchUrl}-ic.com"
+        searchUrl='http://wch-ic.com'
     else
-        searchUrl="${searchUrl}.cn"
+        searchUrl='https://www.wch.cn'
     fi
     
     searchUrl="${searchUrl}/search?t=downloads&q=${keyword}"
     
     wget -q -O - ${searchUrl} | \
-        tidy --quiet yes --show-errors 0 --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
+        tidy --quiet yes --show-errors 0 --force-output yes --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
         xml sel --text -t -m "//tr[@class='search-downloads-tr-body']" -i "count(td)= 4" -v "td[position()=4]" -v "',${language},'" -v "td[position()=1]/a/@href" -n
 }
 
