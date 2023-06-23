@@ -214,7 +214,7 @@ downloadFile() {
         if [ "${download}" = 'y' ]; then
             echo "Updating ${destDir}/${destFile}" 1>&2
             fileUrl="$(wget -q -O - ${pageUrl} | \
-                tidy --quiet yes --show-errors 0 --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
+                tidy --quiet yes --show-errors 0 --force-output yes --show-warnings no --quote-ampersand yes --numeric-entities yes --output-xml yes | \
                 xml sel --text -t -m "//a[contains(@class,'btn-wch-download')]" -v "@href")"
             
             if [ -n "${fileUrl}" ]; then
