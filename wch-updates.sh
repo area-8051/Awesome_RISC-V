@@ -319,6 +319,7 @@ case "${runMode}" in
     
     updateDocuments 'CH32V' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
     updateDocuments 'CH32X' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
+    updateDocuments 'CH32L' "risc-v/wch/CH32Vxxx" 'blacklist' "${riscvBlacklist}"
     updateDocuments 'CH569' "risc-v/wch/CH56x" 'blacklist' "${riscvBlacklist}"
     updateDocuments 'CH573' "risc-v/wch/CH57x" 'blacklist' "${riscvBlacklist}"
     updateDocuments 'CH583' "risc-v/wch/CH58x" 'blacklist' "${riscvBlacklist}|CH592DS1.pdf|"
