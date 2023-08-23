@@ -1,7 +1,1 @@
-This repository contains documents about RISC-V:
-
-- RISC-V_MCU_development_boards lists currently available development
-boards with RISC-V MCU, and useful related information.
-
-- RISC-V_Linux_development_boards is a work in progress with the same 
-ambition for Linux-capable RISC-V SoC.
+Moved to https://codeberg.org/20-100/Awesome_RISC-V
